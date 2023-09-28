@@ -20,13 +20,13 @@ const DataList: React.FC = () => {
 
     const deleteData = (params: any) => {
         console.log(params);
-        axios.delete(`http://3.108.52.70:8080/data/${params}`);
+        axios.delete(`http://13.48.45.70:8080/data/${params}`);
         console.log("Values deleted successfully");
         router.reload();
     };
 
     const fetchAllData = async () => {
-        await axios.get("http://3.108.52.70:8080/data/").then((res) => {
+        await axios.get("http://13.48.45.70:8080/data/").then((res) => {
             dispatch(getAllData(res.data));
             console.log(res.data);
         });
