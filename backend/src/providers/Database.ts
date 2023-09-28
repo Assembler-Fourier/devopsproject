@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 //import config from "config";
 
-const dbURI = 'mongodb+srv://f200282:Ahmed9211@cluster0.jtmatto.mongodb.net/zzbondcipher?retryWrites=true&w=majority';
+const dbURI = 'mongodb+srv://uzairwaseem29:1234567890@cluster0.dl9dqds.mongodb.net/first?retryWrites=true&w=majority';
 
 async function connectDB() {
   try {
