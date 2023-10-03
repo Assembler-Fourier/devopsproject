@@ -1,0 +1,31 @@
+name: backend-frontend-yarn-install
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  backend-yarninstalljob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: yarn install
+
+  frontend-yarninstalljob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: yarn install

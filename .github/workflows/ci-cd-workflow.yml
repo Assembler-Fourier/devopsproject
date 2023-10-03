@@ -1,0 +1,64 @@
+name: ci-cd-deployment-devops
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker
+
+      - name: Logout Docker
+        run: docker logout
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker images
+        run: |
+          docker build -t assemblerfourier/devopsnodejsapp ./backend
+          docker build -t assemblerfourier/devopsreactjsapp ./frontend
+
+      - name: Push Docker images to Docker Hub
+        run: |
+          docker push assemblerfourier/devopsnodejsapp
+          docker push assemblerfourier/devopsreactjsapp
+
+  deploy:
+    needs: build
+    runs-on: aws-ec2
+    steps:
+      - name: Stop and remove old containers
+        run: |
+          docker stop devopsnodejsapp-container || true
+          docker stop devopsreactjsapp-container || true
+          docker rm devopsnodejsapp-container || true
+          docker rm devopsreactjsapp-container || true
+
+      - name: Remove old Docker network (if it exists)
+        run: |
+          docker network rm mynetwork || true
+
+      - name: Create Docker network
+        run: |
+          docker network create mynetwork
+
+      - name: Pull Docker images from Docker Hub
+        run: |
+          docker pull assemblerfourier/devopsnodejsapp
+          docker pull assemblerfourier/devopsreactjsapp
+
+      - name: Run Docker containers with the network
+        run: |
+          docker run -d -p 3000:3000 --name devopsreactjsapp-container --network mynetwork assemblerfourier/devopsreactjsapp
+          docker run -d -p 8080:8080 --name devopsnodejsapp-container --network mynetwork assemblerfourier/devopsnodejsapp
+
