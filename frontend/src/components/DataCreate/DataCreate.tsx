@@ -41,7 +41,7 @@ const CreateNewDataComponent: React.FC = ( ) => {
     const createNewData = async (event: any) => {
         event.preventDefault()
 
-        await axios.post(`http://16.16.187.138:8080/data/`, dataToBeFedToDataAPI, config)
+        await axios.post(`http://16.16.26.120:8080/data/`, dataToBeFedToDataAPI, config)
         .then((response) => {
             dispatch(createData(response.data))
             console.log(response.data)

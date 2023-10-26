@@ -34,7 +34,7 @@ const UpdateDataComponent = () => {
     const updateExistingData = async (event: any) => {
         event.preventDefault();
 
-        await axios.put(`http://16.16.187.138:8080/data/${router?.query?.id}`, dataToBeFedToDataAPI)
+        await axios.put(`http://16.16.26.120:8080/data/${router?.query?.id}`, dataToBeFedToDataAPI)
             .then((response) => {
                 console.log(response.data);
                 dispatch(updateData(response.data));
