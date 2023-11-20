@@ -1,0 +1,13 @@
+---
+- name: Application 3 Playbook
+  hosts: app1
+  tasks:
+    - name: Install Application 1 Dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - dependency1
+        - dependency2
+
+    # Add more tasks for Application 1 as needed
